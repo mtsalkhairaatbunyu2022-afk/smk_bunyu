@@ -1,0 +1,6 @@
+{
+  "name": "BK LA SMKN 1 BUNYU",
+  "description": "Aplikasi Bimbingan Konseling, Absensi, Jurnal Mengajar, dan Penilaian Harian SMKN 1 Bunyu. Dilengkapi dengan impor Excel multi-sheet, rekapitulasi data, serta ekspor dokumen DOC dan PDF secara offline dan online.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
