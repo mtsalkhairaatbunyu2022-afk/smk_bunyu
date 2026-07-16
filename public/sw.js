@@ -1,11 +1,11 @@
-const CACHE_NAME = 'bk-la-smkn1-bunyu-v12';
+const CACHE_NAME = 'bk-la-smkn1-bunyu-v13';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/manifest.json?v=11',
   '/logo_sekolah.png',
-  '/logo_sekolah.png?v=11'
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -25,11 +25,12 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
           }
         })
       );
@@ -39,37 +40,42 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only cache GET requests and non-chrome-extension requests
-  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-  
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Return cached and fetch in background for update
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse);
-            });
-          }
-        }).catch(() => {/* Ignore network errors offline */});
-        return cachedResponse;
+    caches.match(event.request).then((response) => {
+      // Cache hit - return response
+      if (response) {
+        // Fetch in background to update cache (Stale-While-Revalidate)
+        fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+              caches.open(CACHE_NAME).then((cache) => {
+                cache.put(event.request, networkResponse.clone());
+              });
+            }
+          })
+          .catch(() => {});
+          
+        return response;
       }
-      
-      return fetch(event.request).then((response) => {
-        if (!response || response.status !== 200) {
-          return response;
+
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
-        const responseToCache = response.clone();
+
+        const responseToCache = networkResponse.clone();
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(event.request, responseToCache);
         });
-        return response;
+
+        return networkResponse;
       }).catch(() => {
-        // Fallback for offline if not found in cache
-        return caches.match('/');
+        // If offline and request is for navigation, return index.html
+        if (event.request.mode === 'navigate') {
+          return caches.match('/index.html');
+        }
       });
     })
   );
