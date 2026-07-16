@@ -1,9 +1,9 @@
-const CACHE_NAME = 'bk-la-smkn1-bunyu-v13';
+const CACHE_NAME = 'bk-la-smkn1-bunyu-v14';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/logo_sekolah.png',
+  '/logo_smkn_bunyu.jpg',
   '/icon-192.png',
   '/icon-512.png'
 ];

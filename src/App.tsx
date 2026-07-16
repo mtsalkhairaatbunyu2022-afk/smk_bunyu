@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import logoSekolah from './assets/logo_sekolah.png';
+
 import { 
   Users, 
   UserCheck, 
@@ -173,9 +173,9 @@ export default function App() {
           {/* Logo & School Name */}
           <div className="flex items-center gap-3.5">
             <img 
-              src={logoSekolah} 
+              src="/logo_smkn_bunyu.jpg" 
               alt="Logo SMKN 1 Bunyu" 
-              referrerPolicy="no-referrer"
+              
               className="w-12 h-12 rounded-xl object-cover border border-slate-200 shadow-xs shrink-0"
             />
             <div>
@@ -285,9 +285,9 @@ export default function App() {
                     <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full border-4 border-white/20 bg-white/5 backdrop-blur-xs p-2 shadow-xl flex items-center justify-center">
                       <div className="w-full h-full rounded-full bg-white p-1 flex items-center justify-center overflow-hidden">
                         <img 
-                          src={logoSekolah} 
+                          src="/logo_smkn_bunyu.jpg" 
                           alt="Logo Sekolah" 
-                          referrerPolicy="no-referrer"
+                          
                           className="w-full h-full object-cover rounded-full"
                         />
                       </div>
