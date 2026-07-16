@@ -9,9 +9,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="BK LA SMKN 1" />
-    <link rel="apple-touch-icon" href="/logo_konselor.png?v=9" />
-    <link rel="manifest" href="/manifest.json?v=9" />
-    <link rel="icon" type="image/png" href="/logo_konselor.png?v=9" />
+    <link rel="apple-touch-icon" href="/logo_sekolah.png?v=11" />
+    <link rel="manifest" href="/manifest.json?v=11" />
+    <link rel="icon" type="image/png" href="/logo_sekolah.png?v=11" />
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
     <div id="root"></div>
@@ -21,8 +21,19 @@
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
-            .then((reg) => console.log('Service Worker registered successfully!', reg.scope))
+            .then((reg) => {
+              console.log('Service Worker registered successfully!', reg.scope);
+              reg.update();
+            })
             .catch((err) => console.warn('Service Worker registration failed:', err));
+
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+              refreshing = true;
+              window.location.reload();
+            }
+          });
         });
       }
     </script>

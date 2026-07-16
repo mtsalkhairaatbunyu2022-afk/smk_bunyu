@@ -1,15 +1,11 @@
-const CACHE_NAME = 'bk-la-smkn1-bunyu-v10';
+const CACHE_NAME = 'bk-la-smkn1-bunyu-v12';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/manifest.json?v=9',
-  '/logo_konselor.png',
-  '/logo_konselor.png?v=9',
-  '/icon-192.png',
-  '/icon-192.png?v=9',
-  '/icon-512.png',
-  '/icon-512.png?v=9'
+  '/manifest.json?v=11',
+  '/logo_sekolah.png',
+  '/logo_sekolah.png?v=11'
 ];
 
 self.addEventListener('install', (event) => {
